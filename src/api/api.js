@@ -33,8 +33,11 @@ service.interceptors.response.use(
     return Promise.reject(error);
   });
 
+let base = '/api';
+
 export const getSysMenuList = params => {
-  return service.post('/syssetting/getMenuList', params).then(res => res.data);
+  return axios.post(`${base}/syssetting/getMenuList`, params).then(res => res.data);
+  // return service.post('/syssetting/getMenuList', params).then(res => res.data);
 };
 
 export const getSysSchoolList = params => {
