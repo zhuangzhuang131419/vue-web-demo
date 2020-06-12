@@ -76,7 +76,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import api from 'api/index';
+import api from 'src/api/index';
 
 export default {
   data () {
@@ -121,6 +121,15 @@ export default {
       this.modalVisible = true;
     },
     addRow () {
+      var para = {'channel_name': 'HSBC', 'channel_id': '555', 'product': 'p', 'development': 'd', 'law': 'l'};
+
+      // para.append('channel_name', 'HSBC');
+      // para.append('channel_id', '555');
+      // para.append('product', 'p');
+      // para.append('development', 'd');
+      // para.append('law', 'l');
+
+      api.insert(JSON.stringify(para));
       this.schoolList.push(this.form);
       this.modalVisible = false;
     },

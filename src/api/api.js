@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Message} from 'element-ui';
+import {renderThumbStyle} from 'element-ui/packages/scrollbar/src/util';
 
 // create an axios instance
 const service = axios.create({
@@ -44,9 +45,39 @@ export const getSysSchoolList = params => {
   return service.post('/syssetting/getSchoolList', params).then(res => res.data);
 };
 
+export const pingTest = () => {
+  service.get('http://10.231.251.193:6678/api/dbq/Ping').then(res => res.data);
+};
+
+export const insert = params => {
+  // axios({
+  //   url: 'http://10.231.251.193:6678/api/dbq/insert',
+  //   data: {
+  //     // eslint-disable-next-line camelcase
+  //     channel_id: '5',
+  //     // eslint-disable-next-line camelcase
+  //     channel_name: 'HSBC111111',
+  //     development: 'pipo5',
+  //     product: '4567',
+  //     law: '3'
+  //   },
+  //   headers: {
+  //     'Content-Type': 'application/x-www-form-urlencoded'
+  //   }
+  // });
+  axios.post('http://10.231.251.193:6678/api/dbq/insert', params);
+};
+
+export const postTest = () => {
+  service.post('http://10.231.251.193:6678/api/dbq/postping').then(res => res.data);
+};
+
 let api = {
   getSysMenuList,
-  getSysSchoolList
+  getSysSchoolList,
+  pingTest,
+  insert,
+  postTest
 };
 
 export default api;
