@@ -65,7 +65,8 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button @click="closeAddModal">取 消</el-button>
-            <el-button type="primary" @click="addRow">确 定</el-button>
+            <el-button type="primary" @click="addRow" v-if="isAdd">确 定 添 加</el-button>
+            <el-button type="primary" @click="_editRow" v-if="!isAdd">确 定 编 辑</el-button>
           </span>
         </el-dialog>
       </div>
@@ -86,7 +87,8 @@ export default {
       currentPage: 1,
       pageSize: 10,
       modalVisible: false,
-      form: {}
+      form: {},
+      isAdd: false
     };
   },
   created () {
@@ -115,8 +117,8 @@ export default {
         'create_at': '',
         'last_update_at': ''
       };
-      this.form.id = this.schoolList.length;
       this.modalVisible = true;
+      this.isAdd = true;
     },
     addRow () {
       if (this.form.channel_id === '' || this.form.channel_name === '') {
@@ -131,19 +133,17 @@ export default {
         'law': this.form.law
       };
 
-      // para.append('channel_name', 'HSBC');
-      // para.append('channel_id', '555');
-      // para.append('product', 'p');
-      // para.append('development', 'd');
-      // para.append('law', 'l');
-
       api.insert(JSON.stringify(para));
       this.schoolList.push(this.form);
       this.modalVisible = false;
     },
     toEditRow (row) {
+      console.log('编辑');
+      console.log(row);
       this.form = row;
+      console.log('ID:' + this.form.id);
       this.modalVisible = true;
+      this.isAdd = false;
     },
     toDeleteRow (rowId) {
       this.$confirm('请确认是否删除?', '提示', {
@@ -168,10 +168,20 @@ export default {
           this.schoolList.splice(i, 1);
         }
       }
+      api.deleteBDQRecord(rowId);
     },
-    change (e) {
-      console.log('Force update');
-      this.$forceUpdate();
+    _editRow () {
+      var para = {
+        'id': this.form.id,
+        'channel_name': this.form.channel_name,
+        'channel_id': this.form.channel_id,
+        'product': this.form.product,
+        'development': this.form.development,
+        'law': this.form.law
+      };
+
+      api.updateBDQRecord(JSON.stringify(para));
+      this.modalVisible = false;
     }
   },
   computed: {

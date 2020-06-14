@@ -54,22 +54,15 @@ export const getBDQTrackerInfoList = params => {
 };
 
 export const insert = params => {
-  // axios({
-  //   url: 'http://10.231.251.193:6678/api/dbq/insert',
-  //   data: {
-  //     // eslint-disable-next-line camelcase
-  //     channel_id: '5',
-  //     // eslint-disable-next-line camelcase
-  //     channel_name: 'HSBC111111',
-  //     development: 'pipo5',
-  //     product: '4567',
-  //     law: '3'
-  //   },
-  //   headers: {
-  //     'Content-Type': 'application/x-www-form-urlencoded'
-  //   }
-  // });
   axios.post('http://10.231.251.193:6678/api/dbq/insert', params);
+};
+
+export const deleteBDQRecord = params => {
+  axios.get('http://10.231.251.193:6678/api/dbq/delete?id=' + params);
+};
+
+export const updateBDQRecord = params => {
+  axios.post('http://10.231.251.193:6678/api/dbq/update', params).then(res => res.data);
 };
 
 export const postTest = () => {
