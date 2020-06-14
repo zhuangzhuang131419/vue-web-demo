@@ -49,6 +49,10 @@ export const pingTest = () => {
   service.get('http://10.231.251.193:6678/api/dbq/Ping').then(res => res.data);
 };
 
+export const getBDQTrackerInfoList = params => {
+  return service.get('http://10.231.251.193:6678/api/dbq/list', params).then(res => res.data);
+};
+
 export const insert = params => {
   // axios({
   //   url: 'http://10.231.251.193:6678/api/dbq/insert',

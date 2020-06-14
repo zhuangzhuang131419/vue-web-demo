@@ -1,15 +1,15 @@
 <template>
     <div class="scholl-info">
       <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">
-        <el-form-item label="学校名称：">
-          <el-input size="small" v-model="formInline.schoolName" placeholder="学校名称"></el-input>
+        <el-form-item label="渠道名称：">
+          <el-input size="small" v-model="formInline.channelName" placeholder="渠道名称" @input="change($event)"></el-input>
         </el-form-item>
-        <el-form-item label="省份：">
-          <el-input size="small" v-model="formInline.province" placeholder="省份"></el-input>
+        <el-form-item label="渠道ID：">
+          <el-input size="small" v-model="formInline.channelID" placeholder="渠道ID"></el-input>
         </el-form-item>
-        <el-form-item label="管理员：">
-          <el-input size="small" v-model="formInline.manager" placeholder="管理员"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="管理员：">-->
+<!--          <el-input size="small" v-model="formInline.manager" placeholder="管理员"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item>
           <el-button size="small" type="primary" @click="onSubmit">提交</el-button>
         </el-form-item>
@@ -17,12 +17,13 @@
 
       <el-table :data="schoolShowList" size="small" style="width: 100%;">
         <el-table-column label="ID"  width="80" prop="id"></el-table-column>
-        <el-table-column label="名称" width="180" prop="name"></el-table-column>
-        <el-table-column label="管理员"  width="120" prop="manager"></el-table-column>
-        <el-table-column label="联系方式"  width="180" prop="contact"></el-table-column>
-        <el-table-column label="佣金"  width="100" prop="commission"></el-table-column>
-        <el-table-column label="省份"  width="100" prop="province"></el-table-column>
-        <el-table-column label="详细地址"  width="300" prop="address"></el-table-column>
+        <el-table-column label="渠道名称" width="180" prop="channel_name"></el-table-column>
+        <el-table-column label="渠道ID"  width="120" prop="channel_id"></el-table-column>
+        <el-table-column label="研发"  width="180" prop="development"></el-table-column>
+        <el-table-column label="产品"  width="100" prop="product"></el-table-column>
+        <el-table-column label="法务"  width="100" prop="law"></el-table-column>
+        <el-table-column label="创建时间"  width="300" prop="create_at"></el-table-column>
+        <el-table-column label="上次更改时间"  width="300" prop="last_update_at"></el-table-column>
         <el-table-column fixed="right" label="操作" width="280">
           <template slot-scope="scope">
             <el-button @click.native.prevent="toAddRow()" size="small">增加</el-button>
@@ -82,9 +83,8 @@ export default {
   data () {
     return {
       formInline: {
-        schoolName: '',
-        province: '',
-        manager: ''
+        channelName: '',
+        channelID: ''
       },
       schoolList: [],
       currentPage: 1,
@@ -95,7 +95,8 @@ export default {
   },
   created () {
     this.$Progress.start();
-    api.getSysSchoolList().then((res) => {
+    api.getBDQTrackerInfoList().then((res) => {
+      console.log(res);
       this.schoolList = res.data;
       this.$Progress.finish();
     });
@@ -110,12 +111,13 @@ export default {
     toAddRow () {
       this.form = {
         'id': '',
-        'name': '',
-        'manager': '',
-        'contact': '',
-        'commission': '',
-        'province': '',
-        'address': ''
+        'channel_id': '',
+        'channel_name': '',
+        'development': '',
+        'product': '',
+        'law': '',
+        'create_at': '',
+        'last_update_at': ''
       };
       this.form.id = this.schoolList.length;
       this.modalVisible = true;
@@ -160,6 +162,10 @@ export default {
           this.schoolList.splice(i, 1);
         }
       }
+    },
+    change (e) {
+      console.log('Force update');
+      this.$forceUpdate();
     }
   },
   computed: {
@@ -169,9 +175,8 @@ export default {
     schoolShowList () {
       let ths = this;
       let returnList = ths.schoolList.filter(function (item) {
-        return (ths.formInline.schoolName === '' || item.name.indexOf(ths.formInline.schoolName) !== -1) &&
-          (ths.formInline.province === '' || item.province.indexOf(ths.formInline.province) !== -1) &&
-          (ths.formInline.manager === '' || item.manager.indexOf(ths.formInline.manager) !== -1);
+        return (ths.formInline.channelID === '' || item.channel_id.indexOf(ths.formInline.channelID) !== -1) &&
+          (ths.formInline.channelName === '' || item.channel_name.indexOf(ths.formInline.channelName) !== -1);
       });
 
       return returnList && returnList.slice((ths.currentPage - 1) * ths.pageSize, ths.currentPage * ths.pageSize);
