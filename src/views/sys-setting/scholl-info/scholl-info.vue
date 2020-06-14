@@ -11,7 +11,8 @@
 <!--          <el-input size="small" v-model="formInline.manager" placeholder="管理员"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item>
-          <el-button size="small" type="primary" @click="onSubmit">提交</el-button>
+          <el-button size="small" type="primary" @click="onSubmit" v-if="false">提交</el-button>
+          <el-button size="small" type="primary" @click.native.prevent="toAddRow()" >增加</el-button>
         </el-form-item>
       </el-form>
 
@@ -26,7 +27,6 @@
         <el-table-column label="上次更改时间"  width="300" prop="last_update_at"></el-table-column>
         <el-table-column fixed="right" label="操作" width="280">
           <template slot-scope="scope">
-            <el-button @click.native.prevent="toAddRow()" size="small">增加</el-button>
             <el-button @click.native.prevent="toEditRow(scope.row)" type="primary" size="small">编辑</el-button>
             <el-button @click.native.prevent="toDeleteRow(scope.row.id)" type="danger" size="small">删除</el-button>
           </template>
@@ -43,28 +43,24 @@
       </div>
 
       <div class="dialog">
-        <el-dialog title="学校信息" :inline="true" :visible.sync="modalVisible" width="30%" :before-close="closeAddModal">
+        <el-dialog title="渠道信息" :inline="true" :visible.sync="modalVisible" width="30%" :before-close="closeAddModal">
          <el-form ref="form" :model="form" label-width="100px" size="mini" class="demo-dynamic">
-            <el-form-item label="学校名称：" prop="name"
-              :rules="[{ required: true, message: '请输入学校名称', trigger: 'blur' }]">
-              <el-input v-model="form.name"></el-input>
+            <el-form-item label="渠道名称：" prop="channel_name"
+              :rules="[{ required: true, message: '请输入渠道名称', trigger: 'blur' }]">
+              <el-input v-model="form.channel_name"></el-input>
             </el-form-item>
-            <el-form-item label="管理员：">
-             <el-input v-model="form.manager"></el-input>
+            <el-form-item label="渠道ID：" prop="channel_id" 
+              :rules="[{ required: true, message: '请输入渠道ID', trigger: 'blur' }]">
+             <el-input v-model="form.channel_id"></el-input>
             </el-form-item>
-            <el-form-item label="联系方式：">
-             <el-input v-model="form.contact"></el-input>
+            <el-form-item label="产品：">
+             <el-input v-model="form.product"></el-input>
             </el-form-item>
-            <el-form-item label="佣金：">
-             <el-input v-model="form.commission"></el-input>
+            <el-form-item label="研发：">
+             <el-input v-model="form.development"></el-input>
             </el-form-item>
-            <el-form-item label="省份：" prop="province"
-              :rules="[{ required: true, message: '请输入所在省份', trigger: 'blur' }]">
-             <el-input v-model="form.province"></el-input>
-            </el-form-item>
-            <el-form-item label="详细地址：" prop="address"
-              :rules="[{ required: true, message: '请输入学校地址', trigger: 'blur' }]">
-             <el-input v-model="form.address"></el-input>
+            <el-form-item label="法务：">
+             <el-input v-model="form.law"></el-input>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -123,7 +119,17 @@ export default {
       this.modalVisible = true;
     },
     addRow () {
-      var para = {'channel_name': 'HSBC', 'channel_id': '555', 'product': 'p', 'development': 'd', 'law': 'l'};
+      if (this.form.channel_id === '' || this.form.channel_name === '') {
+        alert('请输入渠道名称和渠道ID');
+        return;
+      }
+      var para = {
+        'channel_name': this.form.channel_name,
+        'channel_id': this.form.channel_id,
+        'product': this.form.product,
+        'development': this.form.development,
+        'law': this.form.law
+      };
 
       // para.append('channel_name', 'HSBC');
       // para.append('channel_id', '555');
