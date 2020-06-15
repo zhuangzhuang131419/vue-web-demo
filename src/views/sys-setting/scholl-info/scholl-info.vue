@@ -2,14 +2,17 @@
     <div class="scholl-info">
       <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">
         <el-form-item label="渠道名称：">
-          <el-input size="small" v-model="formInline.channelName" placeholder="渠道名称" @input="change($event)"></el-input>
+          <el-input size="small" v-model="formInline.channelName" placeholder="渠道名称"></el-input>
         </el-form-item>
-<!--        <el-form-item label="渠道ID：">-->
-<!--          <el-input size="small" v-model="formInline.channelID" placeholder="渠道ID"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="管理员：">-->
-<!--          <el-input size="small" v-model="formInline.manager" placeholder="管理员"></el-input>-->
-<!--        </el-form-item>-->
+        <el-form-item label="国家：">
+          <el-input size="small" v-model="formInline.country" placeholder="国家"></el-input>
+        </el-form-item>
+        <el-form-item label="支付方式：">
+          <el-input size="small" v-model="formInline.paymentType" placeholder="支付方式"></el-input>
+        </el-form-item>
+        <el-form-item label="是否可转售：">
+          <el-input size="small" v-model="formInline.resalable" placeholder="是否可转售"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" @click="onSubmit" v-if="false">提交</el-button>
           <el-button size="small" type="primary" @click.native.prevent="toAddRow()" >增加</el-button>
@@ -97,7 +100,10 @@ export default {
   data () {
     return {
       formInline: {
-        channelName: ''
+        channelName: '',
+        paymentType: '',
+        country: '',
+        resalable: ''
       },
       schoolList: [],
       currentPage: 1,
@@ -113,7 +119,7 @@ export default {
     this.$Progress.start();
     api.getBDQTrackerInfoList().then((res) => {
       console.log(res);
-      this.schoolList = res.data;
+      this.schoolList = res.data === null ? [] : res.data;
       this.$Progress.finish();
     });
   },
@@ -218,7 +224,10 @@ export default {
     schoolShowList () {
       let ths = this;
       let returnList = ths.schoolList.filter(function (item) {
-        return (ths.formInline.channelName === '' || item.channel_name.indexOf(ths.formInline.channelName) !== -1);
+        return (ths.formInline.channelName === '' || item.channel_name.toLowerCase().indexOf(ths.formInline.channelName.toLowerCase()) !== -1) &&
+          (ths.formInline.country === '' || item.country.toLowerCase().indexOf(ths.formInline.country.toLowerCase()) !== -1) &&
+          (ths.formInline.resalable === '' || (item.resalable ? '是' : '否').toLowerCase().indexOf(ths.formInline.resalable.toLowerCase()) !== -1) &&
+          (ths.formInline.paymentType === '' || item.payment_type.toLowerCase().indexOf(ths.formInline.paymentType.toLowerCase()) !== -1);
       });
 
       return returnList && returnList.slice((ths.currentPage - 1) * ths.pageSize, ths.currentPage * ths.pageSize);
