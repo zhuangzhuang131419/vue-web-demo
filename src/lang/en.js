@@ -18,6 +18,7 @@ export default {
     settingManage: 'System Manage',
     userCenter: 'User center',
     companyHelp: 'Company Help',
+    recordHistory: 'Record History',
     setting: 'setting',
     logout: 'logout',
     zh: '中文',

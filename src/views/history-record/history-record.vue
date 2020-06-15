@@ -14,7 +14,7 @@
         <el-input size="small" v-model="formInline.resalable" placeholder="是否可转售"></el-input>
       </el-form-item>
     </el-form>
-    
+
     <el-table :data="schoolShowList" size="small" style="width: 100%;">
       <el-table-column label="ID"  width="80" prop="id"></el-table-column>
       <el-table-column label="修改人" width="200" prop="editor"></el-table-column>

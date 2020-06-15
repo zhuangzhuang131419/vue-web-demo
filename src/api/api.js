@@ -45,24 +45,32 @@ export const getSysSchoolList = params => {
   return service.post('/syssetting/getSchoolList', params).then(res => res.data);
 };
 
-export const pingTest = () => {
-  service.get('http://10.231.251.193:6678/api/dbq/Ping').then(res => res.data);
+export const getBDQTrackerInfoList = () => {
+  return service.get('http://10.231.251.193:6678/api/dbq/list').then(res => res.data);
 };
 
-export const getBDQTrackerInfoList = params => {
-  return service.get('http://10.231.251.193:6678/api/dbq/list', params).then(res => res.data);
+export const getBDQTrackerInfoListByID = (id) => {
+  return service.get('http://10.231.251.193:6678/api/dbq/list?id=' + id).then(res => res.data);
+};
+
+export const getBDQTrackerInfoListByRecordID = (recordId) => {
+  return service.get('http://10.231.251.193:6678/api/dbq/list?record_id=' + recordId).then(res => res.data);
 };
 
 export const insert = params => {
   axios.post('http://10.231.251.193:6678/api/dbq/insert', params);
 };
 
-export const deleteBDQRecord = params => {
-  axios.get('http://10.231.251.193:6678/api/dbq/delete?id=' + params);
+export const deleteBDQRecord = id => {
+  axios.get('http://10.231.251.193:6678/api/dbq/delete?id=' + id);
 };
 
-export const updateBDQRecord = params => {
-  axios.post('http://10.231.251.193:6678/api/dbq/update', params).then(res => res.data);
+export const updateBDQRecord = record => {
+  axios.post('http://10.231.251.193:6678/api/dbq/update', record).then(res => res.data);
+};
+
+export const getHistoryRecord = (recordId, field) => {
+  return service.get('http://10.231.251.193:6678/api/dbq/history?record_id=' + recordId + '&field=' + field).then(res => res.data);
 };
 
 export const postTest = () => {
@@ -72,7 +80,6 @@ export const postTest = () => {
 let api = {
   getSysMenuList,
   getSysSchoolList,
-  pingTest,
   insert,
   postTest
 };

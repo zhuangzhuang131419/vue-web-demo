@@ -6,7 +6,8 @@
     <el-menu :default-active="activeSysIndex" class="sys-menu" mode="horizontal" @select="handleSelect">
       <el-menu-item index="sysSetting">{{$t('header.settingManage')}}</el-menu-item>
       <el-menu-item index="userCenter">{{$t('header.userCenter')}}</el-menu-item>
-      <el-menu-item index="companyHelp">{{$t('header.companyHelp')}}</el-menu-item>
+      <el-menu-item index="bdqTrackInfo">{{$t('header.bdqTrackInfo')}}</el-menu-item>
+      <el-menu-item index="historyRecord">{{$t('header.historyRecord')}}</el-menu-item>
     </el-menu>
     <el-dropdown @command="userOperationFn" class="user">
       <i class="user-icon"></i>
@@ -50,8 +51,11 @@
           case 'userCenter':
             this.$router.push({path: '/userCenter'});
             break;
-          case 'companyHelp':
-            this.$router.push({path: '/companyHelp'});
+          case 'bdqTrackInfo':
+            this.$router.push({path: '/bdqTrackInfo'});
+            break;
+          case 'historyRecord':
+            this.$router.push({path: '/historyRecord'});
             break;
         }
       },

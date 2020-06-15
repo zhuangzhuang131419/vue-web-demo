@@ -34,6 +34,7 @@
           <template slot-scope="scope">
             <el-button @click.native.prevent="toEditRow(scope.row)" type="primary" size="small">编辑</el-button>
             <el-button @click.native.prevent="toDeleteRow(scope.row.id)" type="danger" size="small">删除</el-button>
+            <el-button @click.native.prevent="toGetRowHistory(scope.row.id)" type="info" size="small">查询历史</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -182,6 +183,17 @@ export default {
         this._deleteRow(rowId);
       });
     },
+    toGetRowHistory (rowId) {
+      this.$Progress.start();
+      api.getBDQTrackerInfoListByID(rowId).then((res) => {
+        this.form = res.data;
+        console.log(rowId + 'response: ' + this.form);
+        api.getHistoryRecord(this.form.record_id, '').then((res) => {
+          console.log('history record' + res);
+          this.$Progress.finish();
+        });
+      });
+    },
     closeAddModal () {
       this.modalVisible = false;
     },
@@ -241,6 +253,7 @@ export default {
     padding: 0 20px;
     font-size: 20px;
     color: rgb(192, 204, 218);
+    text-align: center;
 
     .pagination {
       padding: 10px 0;
