@@ -164,7 +164,11 @@
         };
 
         api.insert(JSON.stringify(para));
-        this.schoolList.push(this.form);
+        api.getBDQTrackerInfoList().then((res) => {
+          this.schoolList = res.data === null ? [] : res.data;
+          this.$Progress.finish();
+        });
+        // this.schoolList.push(this.form);
         this.modalVisible = false;
       },
       toEditRow (row) {

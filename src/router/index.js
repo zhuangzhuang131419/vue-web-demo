@@ -21,16 +21,16 @@ const router = new Router({
       name: 'login',
       component: login/* ,hidden: true, // 自定义属性，在组件中可以通过 this.$route.hidden 获取值 */
     },
-    {
-      path: '/sysSetting', /* 首页 */
-      component: sysSetting,
-      name: 'sysSetting', /* this.$route.matched.filter(item => item.name) */
-      meta: {
-        keepAlive: false, /* 用于在 <keep-alive> 中使用，判断是否需要进行缓存 */
-        auth: true, /* 自定义属性，用于判断是否进行校验,在router.beforeEach中使用 */
-        title: '系统设置' /* 可以通过$route.meta.title 后取当前的描述信息、菜单信息 */
-      }
-    },
+    // {
+    //   path: '/sysSetting', /* 首页 */
+    //   component: sysSetting,
+    //   name: 'sysSetting', /* this.$route.matched.filter(item => item.name) */
+    //   meta: {
+    //     keepAlive: false, /* 用于在 <keep-alive> 中使用，判断是否需要进行缓存 */
+    //     auth: true, /* 自定义属性，用于判断是否进行校验,在router.beforeEach中使用 */
+    //     title: '系统设置' /* 可以通过$route.meta.title 后取当前的描述信息、菜单信息 */
+    //   }
+    // },
     {
       path: '/bdqTrackInfo',
       component: bdqTrackInfo,
@@ -56,7 +56,7 @@ const router = new Router({
     },
     {
       path: '*', /* 默认跳转到登录界面 */
-      redirect: {path: '/sysSetting'}
+      redirect: {path: '/bdqTrackInfo'}
     },
     {
       path: '/historyRecord', /* 历史记录 */

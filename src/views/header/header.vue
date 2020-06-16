@@ -1,11 +1,11 @@
 <template> <!-- 首页头部 -->
   <header class="header">
-    <a href="" class="logo-content">
-      {{$t('header.sysName')}}
-    </a>
+<!--    <a href="" class="logo-content">-->
+<!--      {{$t('header.sysName')}}-->
+<!--    </a>-->
     <el-menu :default-active="activeSysIndex" class="sys-menu" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="sysSetting">{{$t('header.settingManage')}}</el-menu-item>
-      <el-menu-item index="userCenter">{{$t('header.userCenter')}}</el-menu-item>
+<!--      <el-menu-item index="sysSetting">{{$t('header.settingManage')}}</el-menu-item>-->
+<!--      <el-menu-item index="userCenter">{{$t('header.userCenter')}}</el-menu-item>-->
       <el-menu-item index="bdqTrackInfo">{{$t('header.bdqTrackInfo')}}</el-menu-item>
       <el-menu-item index="historyRecord">{{$t('header.historyRecord')}}</el-menu-item>
     </el-menu>
@@ -45,12 +45,12 @@
     methods: {
       handleSelect (key, keyPath) {
         switch (key) {
-          case 'sysSetting':
-            this.$router.push({path: '/sysSetting'});
-            break;
-          case 'userCenter':
-            this.$router.push({path: '/userCenter'});
-            break;
+          // case 'sysSetting':
+          //   this.$router.push({path: '/sysSetting'});
+          //   break;
+          // case 'userCenter':
+          //   this.$router.push({path: '/userCenter'});
+          //   break;
           case 'bdqTrackInfo':
             this.$router.push({path: '/bdqTrackInfo'});
             break;
