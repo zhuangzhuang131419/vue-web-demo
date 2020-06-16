@@ -1,21 +1,21 @@
 <template>
   <div class="withdraw">
-    <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">
-      <el-form-item label="渠道名称：">
-        <el-input size="small" v-model="formInline.channelName" placeholder="渠道名称"></el-input>
-      </el-form-item>
-      <el-form-item label="国家：">
-        <el-input size="small" v-model="formInline.country" placeholder="国家"></el-input>
-      </el-form-item>
-      <el-form-item label="支付方式：">
-        <el-input size="small" v-model="formInline.paymentType" placeholder="支付方式"></el-input>
-      </el-form-item>
-      <el-form-item label="是否可转售：">
-        <el-input size="small" v-model="formInline.resalable" placeholder="是否可转售"></el-input>
-      </el-form-item>
-    </el-form>
+<!--    <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">-->
+<!--      <el-form-item label="渠道名称：">-->
+<!--        <el-input size="small" v-model="formInline.channelName" placeholder="渠道名称"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="国家：">-->
+<!--        <el-input size="small" v-model="formInline.country" placeholder="国家"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="支付方式：">-->
+<!--        <el-input size="small" v-model="formInline.paymentType" placeholder="支付方式"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="是否可转售：">-->
+<!--        <el-input size="small" v-model="formInline.resalable" placeholder="是否可转售"></el-input>-->
+<!--      </el-form-item>-->
+<!--    </el-form>-->
 
-    <el-table :data="schoolShowList" size="small" style="width: 100%;">
+    <el-table :data="schoolShowList" style="width: 100%;" max-height="750">>
       <el-table-column label="ID"  width="80" prop="id"></el-table-column>
       <el-table-column label="修改人" width="200" prop="editor"></el-table-column>
       <el-table-column label="修改时间"  width="250" prop="update_at"></el-table-column>
@@ -48,7 +48,10 @@
     },
     created () {
       this.$Progress.start();
-      api.getHistoryRecord('AQEAAKttXdYo4UUPs2LgavHZr5gD', '').then((res) => {
+      const recordId = this.$route.query.recordId;
+  
+      console.log('recordID' + recordId);
+      api.getHistoryRecord(recordId, '').then((res) => {
         console.log(res);
         this.schoolList = res.data === null ? [] : res.data;
         this.$Progress.finish();
@@ -97,7 +100,8 @@
             (ths.formInline.paymentType === '' || item.payment_type.toLowerCase().indexOf(ths.formInline.paymentType.toLowerCase()) !== -1);
         });
 
-        return returnList && returnList.slice((ths.currentPage - 1) * ths.pageSize, ths.currentPage * ths.pageSize);
+        // return returnList && returnList.slice((ths.currentPage - 1) * ths.pageSize, ths.currentPage * ths.pageSize);
+        return returnList.reverse();
       }
     }
   };

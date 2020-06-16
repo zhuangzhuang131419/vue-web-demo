@@ -27,6 +27,9 @@
       <el-table-column label="覆盖国家"  width="100" prop="country"></el-table-column>
       <el-table-column label="是否可转售"  width="80" prop="resalable" :formatter="formatBool"></el-table-column>
       <el-table-column label="支付方式"  width="100" prop="payment_type"></el-table-column>
+      <el-table-column label="BD_Owner"  width="100" prop="BD_Owner"></el-table-column>
+      <el-table-column label="PM"  width="100" prop="PM"></el-table-column>
+      <el-table-column label="渠道运营Owner"  width="200" prop="channel_operation_owner"></el-table-column>
       <el-table-column label="备注"  width="300" prop="description"></el-table-column>
       <el-table-column label="创建时间"  width="200" prop="create_at"></el-table-column>
       <el-table-column label="上次更改时间"  width="200" prop="last_update_at"></el-table-column>
@@ -50,10 +53,13 @@
 
     <div class="dialog">
       <el-dialog title="渠道信息" :inline="true" :visible.sync="modalVisible" width="40%" :before-close="closeAddModal">
-        <el-form ref="form" :model="form" label-width="120px" size="mini" class="demo-dynamic">
+        <el-form ref="form" :model="form" label-width="150px" size="mini" class="demo-dynamic">
           <el-form-item label="渠道名称：" prop="channel_name"
                         :rules="[{ required: true, message: '请输入渠道名称', trigger: 'blur' }]" :disabled="!isAdd">
             <el-input v-model="form.channel_name"></el-input>
+          </el-form-item>
+          <el-form-item label="产品：">
+            <el-input type="textarea" autosize v-model="form.product" placeholder="请输入产品内容"></el-input>
           </el-form-item>
           <el-form-item label="HQ Country：" prop="HQ_country"
                         :rules="[{ required: true, message: '请输入渠道总部国家', trigger: 'blur' }]">
@@ -75,9 +81,15 @@
               <el-radio v-for="payment_type in paymentTypes" :label="payment_type" :key="payment_type">{{payment_type}}</el-radio>
             </el-radio-group>
           </el-form-item>
-
-          <el-form-item label="产品：">
-            <el-input type="textarea" autosize v-model="form.product" placeholder="请输入产品内容"></el-input>
+          <el-form-item label="BD_Owner：" prop="BD_Owner"
+                        :rules="[{ required: true, message: '请输入BD_Owner', trigger: 'blur' }]">
+            <el-input v-model="form.BD_Owner"></el-input>
+          </el-form-item>
+          <el-form-item label="PM：">
+            <el-input type="textarea" autosize v-model="form.PM" placeholder="请输入PM"></el-input>
+          </el-form-item>
+          <el-form-item label="渠道运营Owner：">
+            <el-input type="textarea" autosize v-model="form.channel_operation_owner" placeholder="请输入渠道运营Owner"></el-input>
           </el-form-item>
           <el-form-item label="备注：">
             <el-input type="textarea" autosize v-model="form.description" placeholder="请输入备注内容"></el-input>
@@ -140,6 +152,9 @@
           'product': '',
           'resalable': '',
           'payment_type': '',
+          'BD_Owner': '',
+          'PM': '',
+          'channel_operation_owner': '',
           'create_at': '',
           'last_update_at': '',
           'description': ''
@@ -160,6 +175,9 @@
           'product': this.form.product,
           'resalable': this.form.resalable,
           'payment_type': this.form.payment_type,
+          'BD_Owner': this.form.BD_Owner,
+          'PM': this.form.PM,
+          'channel_operation_owner': this.form.channel_operation_owner,
           'description': this.form.description
         };
 
@@ -190,12 +208,14 @@
       toGetRowHistory (rowId) {
         this.$Progress.start();
         api.getBDQTrackerInfoListByID(rowId).then((res) => {
-          this.form = res.data;
-          console.log(rowId + 'response: ' + this.form);
-          api.getHistoryRecord(this.form.record_id, '').then((res) => {
-            console.log('history record' + res);
-            this.$Progress.finish();
+          console.log(rowId + ' response: ' + res.data.record_id);
+          this.$router.push({
+            path: '/historyRecord',
+            query: {
+              recordId: String(res.data.record_id)
+            }
           });
+          this.$Progress.finish();
         });
       },
       closeAddModal () {
@@ -223,6 +243,9 @@
           'product': this.form.product,
           'resalable': this.form.resalable,
           'payment_type': this.form.payment_type,
+          'BD_Owner': this.form.BD_Owner,
+          'PM': this.form.PM,
+          'channel_operation_owner': this.form.channel_operation_owner,
           'description': this.form.description
         };
 
